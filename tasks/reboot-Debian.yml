@@ -1,0 +1,10 @@
+---
+- name: check reboot-required
+  shell: "[ -f /var/run/reboot-required ]"
+  failed_when: false
+  register: reboot_required
+  changed_when: reboot_required.rc == 0
+- name: reboot when needed
+  reboot:
+    msg: reboot after applying patches
+  when: reboot_required.rc == 0

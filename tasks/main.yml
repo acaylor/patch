@@ -1,0 +1,32 @@
+---
+# tasks file for patch
+- name: Include tasks for patching
+  include_tasks: "{{ patch_tasks }}"
+  with_first_found:
+    - "patch-{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "patch-{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml"
+    - "patch-{{ ansible_distribution }}.yml"
+    - "patch-{{ ansible_os_family }}.yml"
+  loop_control:
+    loop_var: patch_tasks
+
+- name: Include tasks for reboot
+  include_tasks: "{{ reboot_tasks }}"
+  with_first_found:
+    - "reboot-{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "reboot-{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml"
+    - "reboot-{{ ansible_distribution }}.yml"
+    - "reboot-{{ ansible_os_family }}.yml"
+  loop_control:
+    loop_var: reboot_tasks
+
+- name: Include tasks for cleanup
+  include_tasks: "{{ cleanup_tasks }}"
+  with_first_found:
+    - "cleanup-{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "cleanup-{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml"
+    - "cleanup-{{ ansible_distribution }}.yml"
+    - "cleanup-{{ ansible_os_family }}.yml"
+  loop_control:
+    loop_var: cleanup_tasks
+

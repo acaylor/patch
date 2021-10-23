@@ -1,0 +1,9 @@
+---
+- name: Update cache
+  apt: 
+    update_cache: yes
+  changed_when: false
+- name: dist upgrade
+  apt:
+    force_apt_get: true
+    upgrade: dist

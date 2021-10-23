@@ -1,0 +1,14 @@
+---
+- name: Check for dnf-utils
+  dnf:
+    name: 'dnf-utils'
+    state: present
+- name: check needs-restarting
+  command: 'needs-restarting -r'
+  failed_when: false
+  register: needs_restarting
+  changed_when: needs_restarting.rc == 1
+- name: reboot when needed
+  reboot:
+    msg: Reboot after applying patches
+  when: needs_restarting.rc == 1
